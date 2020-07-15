@@ -15,20 +15,25 @@ let messages = [
   }
 ]
 
+export const getAll = (req,res) => {
+  res.send(messages)
+}
 export const getMessage = (req, res) => {
   const { id } = req.params;
+  console.log(req)
 
-  const foundMessage = messages.find((message) => message.id === id)
-  res.send(foundMessage)
+  const foundMessage = messages.find( (message) => message.id === id )
+  res.send(`getMessage: ${id}, ${foundMessage.messageBody}`)
 }
 
 export const createMessage = (req, res) => {
-  const message = req.body;
+  const {messageBody} = req.body;
+  
   const messageId = uuidv4()
-  console.log(req)
-  console.log("Message: ", message)
-  messages.push({ ...message, id: messageId});
-  res.send(`The message id: ${messages.messageBody} was added to the database. ID: ${messages.id}`)
+  
+  messages.push({ messageBody, id: messageId});
+  console.log(messages)
+  res.send(`The message id: ${messageId} was added to the database. Message: ${messageBody}`)
 }
 
 export const editMessage = (req, res) => {
@@ -40,7 +45,9 @@ export const editMessage = (req, res) => {
 
   if(messageBody) foundMessage.messageBody = messageBody
 
+  console.log(messages)
   res.send(`The message with id: ${id} was successfully edited to: ${messageBody}`)
+
 }
 
 export const deleteMessage = (req, res) => {
@@ -49,5 +56,9 @@ export const deleteMessage = (req, res) => {
   const getMessage = messages.find((message) => message.id === id)
   messages = messages.filter((message) => message.id !== id)
 
+  console.log(getMessage)
   res.send(`Message with the id ${id} was deleted: ${getMessage.messageBody}`)
+  
+  console.log(messages)
 }
+
