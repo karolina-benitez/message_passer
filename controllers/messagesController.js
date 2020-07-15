@@ -25,9 +25,10 @@ export const getMessage = (req, res) => {
 export const createMessage = (req, res) => {
   const message = req.body;
   const messageId = uuidv4()
+  console.log(req)
+  console.log("Message: ", message)
   messages.push({ ...message, id: messageId});
-
-  res.send(`The message: ${messages.messageBody} was added to the database. The ${messageId}`)
+  res.send(`The message id: ${messages.messageBody} was added to the database. ID: ${messages.id}`)
 }
 
 export const editMessage = (req, res) => {
