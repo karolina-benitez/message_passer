@@ -1,5 +1,5 @@
-CREATE DATABASE messagePasserDB;
--- \c messagePasserDB # to enter db
+CREATE DATABASE messagepasserdb;
+-- \c messagepasserdb # to enter db
 
 CREATE TABLE messages(
   id serial PRIMARY KEY,

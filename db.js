@@ -5,6 +5,6 @@ export const pool =  new Pool.Pool({
   password: "",
   host: "localhost",
   port: 5432,
-  database: "messagepasserdb" //if error, try messagePasserDB
+  database: "messagepasserdb"
 });
 // file currently not being used
