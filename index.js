@@ -21,5 +21,3 @@ app.delete('/:id', deleteMessage);
 app.listen(8000, () => {
   console.log('The Message Passer app is on port 8000!')
 });
-console
-
