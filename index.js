@@ -1,12 +1,13 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import { v4 as uuidv4 } from "uuid";
-
+import cors from 'cors';
 import { getAll, getMessage, createMessage, editMessage, deleteMessage } from './controllers/messagesController.js'
 
 const app = express();
 
-app.use(bodyParser.json());
+// middleware
+app.use(cors())
+
+app.use(express.json())
 
 app.get('/', getAll);
 
