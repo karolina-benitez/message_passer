@@ -8,17 +8,16 @@ import SendURL from './Components/SendURL';
 function App() {
 
   const [recipient, setRecipient] = React.useState("");
-  const [url, setURL] = React.useState('');
+  const [url, setURL] = React.useState('hardcodedurl');
 
   return (
     <div className="App">
       <Header/>
-      <MessageForm/>
+      <MessageForm url={url} setURL={setURL}/>
       <SendURL 
           recipient={recipient} 
           setRecipient={setRecipient} 
           url={url}
-          setURL={setURL}
         />
     </div>
   );

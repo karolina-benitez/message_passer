@@ -97,11 +97,12 @@ export const deleteMessage = async(req, res) => {
 }
 
 export const sendMessage = async(req, res) => {
-  try {
-    const {recipient, urlToSend} = req.body;
-    await sendSMS(`+${recipient}`, urlToSend);
-    res.json(`Sent to ${recipient}: ${urlToSend}`)
-  } catch (error) {
-    console.log(error);
-  }
+  console.log(req.body)
+  // try {
+  //   const {recipient, urlToSend} = req.body;
+  //   await sendSMS(`+${recipient}`, urlToSend);
+  //   res.json(`Sent to ${recipient}: ${urlToSend}`)
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
