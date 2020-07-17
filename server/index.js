@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import { getAll, getMessage, createMessage, editMessage, deleteMessage } from './controllers/messagesController.js'
-
 const app = express();
 
 // middleware
+
 app.use(cors())
 
 app.use(express.json())
