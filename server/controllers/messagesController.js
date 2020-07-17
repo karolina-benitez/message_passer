@@ -46,7 +46,7 @@ export const getMessage = async(req, res) => {
       [messageURL.messageBody]
     );
     // console.log("message", message.rows[0])
-    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl });
+    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl, "id": message.rows[0].id });
     console.log("getMessage endpoint was hit!!! Response = ", {"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl })
   } catch (error) {
     console.log(error);
@@ -89,7 +89,9 @@ export const editMessage = async(req, res) => {
 
 export const deleteMessage = async(req, res) => {
   try {
+    console.log("delete endpoint was hit!!!!!")
     const { id } = req.params;
+    console.log("id is: ", id)
     const deleteMessage = await pool.query(
       "DELETE FROM messages where id = $1",
       [id]
