@@ -45,9 +45,12 @@ const MessageDisplay = () => {
 
   return (
     <Fragment>
-      <h1>Secret Message</h1>
-      <p>{messageBody}</p>
-      {messageBody !== "Your message was deleted" ? <button onClick={onDeleteMessage}>Delete</button> : ''}
+      <h1 className="text-center">Secret Message</h1>
+      <p className="messageDisplay">{messageBody}</p>
+      {messageBody !== "Your message was deleted" ? 
+      <div className="buttonContainer">
+        <button  className="buttonStyle btn btn-success text-center" onClick={onDeleteMessage}>Delete</button>
+        </div> : ''}
     </Fragment>
 
   )

@@ -51,19 +51,23 @@ const EditMessage = () => {
   let copyMessageURL = `http://localhost:3000/${messageURL}`
   return (
     <Fragment>
+      <h1 className="text-center">Secret Message URL</h1>
       <form className='mt-5' onSubmit={onSubmitMessage}>
+      <label htmlFor="messagebox">Edit message (optional) </label>
         <input
+          id="messagebox"
           type="text"
           className="form-control"
           value={messageBody}
           onChange={e => setMessageBody(e.target.value)}
         />
-        <p>Edit message (optional)</p>
         <button className="btn btn-success text-center" >Edit Message</button>
       </form>
-      <p>Message url: </p>
-      <form>
-        <textarea
+      <form  className='mt-5'>
+       <label htmlFor="urlbox">Message url: </label>
+       <textarea
+          id="urlbox"
+          className="form-control"
           ref={textAreaRef}
           value={copyMessageURL}
         />
@@ -73,7 +77,7 @@ const EditMessage = () => {
           button if the copy command exists */
        document.queryCommandSupported('copy') &&
         <div>
-          <button onClick={copyToClipboard}>Copy</button>
+          <button  className="btn btn-success text-center" onClick={copyToClipboard}>Copy</button>
           {copySuccess}
         </div>
       }
