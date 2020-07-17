@@ -5,7 +5,7 @@ import './App.css';
 import EditMessage from './Components/EditMessage'
 // import Header from './Components/Header';
 import CreateMessageForm from './Components/CreateMessageForm';
-import URLDisplay from './Components/URLDisplay';
+import MessageDisplay from './Components/MessageDisplay';
 
 function App() {
 
@@ -25,12 +25,12 @@ function App() {
             setMessageID={setMessageID}
             />
           </Route>
-          <Route exact path ='/:messageID'>
+          <Route exact path ='/url'>
             <EditMessage
             />
           </Route>
-          <Route exact path ='/random'>
-            <URLDisplay/>
+          <Route exact path ='/:messageURL'>
+            <MessageDisplay/>
           </Route>
 
         </Switch>

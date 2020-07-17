@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router'
 
-const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID}) => {
+const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data}) => {
 
   const onSubmitMessage = async (e) => {
     console.log("OnSubmitMessage clicked")
@@ -16,7 +16,8 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
       })
       .then(response => response.json())
       .then(data => {
-        setMessageID(data.id)
+        setMessageID(data.messageurl)//this is storing the messageURL not the message id
+        setData(data)
         console.log("data_id", data)
       });
       console.log("responseobject", responseObject)
@@ -39,8 +40,9 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
         </form>
         {messageID ? 
           <Redirect to={{
-            pathname: '/messageURL',
-            state: { id: `${messageID}` }
+            pathname: '/url',
+            state: { id: `${messageID}`,
+                     data: `${data}`}
           }} />
           : ""
         }

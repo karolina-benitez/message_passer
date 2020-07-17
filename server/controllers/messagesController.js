@@ -38,12 +38,15 @@ export const getAll = async(req,res) => {
 
 export const getMessage = async(req, res) => {
   try {
-    const { id } = req.params;
+    let  { messageURL } = req.params;
+    messageURL = qs.parse(messageURL)
+    console.log("messageurl", messageURL)
     const message = await pool.query(
-      "SELECT * FROM messages WHERE id = $1",
-      [id]
+      "SELECT * FROM messages WHERE messagebody = $1",
+      [messageURL.messageBody]
     );
-    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl }); //need to return messageURL for messageURL, currently returning ID
+    // console.log("message", message.rows[0])
+    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl });
     console.log("getMessage endpoint was hit!!! Response = ", {"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl })
   } catch (error) {
     console.log(error);
