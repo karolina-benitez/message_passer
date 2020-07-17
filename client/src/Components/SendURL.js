@@ -24,16 +24,20 @@ const SendURL = ({recipient, setRecipient, url, setURL}) => {
   return (
     <>
       <form className='mt-5' onSubmit={sendtheURL}>
-      <label htmlFor="send-msg">Please enter a phone number to send the message</label>
-        <input
-          type="text"
-          className="form-control"
-          value={recipient}
-          onChange={e => setRecipient(e.target.value)}
-          id="send-msg"
-          placeholder="5106441234"
-        />
-        <button className="btn btn-primary text-center" >Send the message</button>
+      <fieldset>
+        <legend>Send the link to someone</legend>
+        <label htmlFor="send-msg">Please enter a phone number to send the message</label>
+          <input
+            type="text"
+            className="form-control"
+            value={recipient}
+            onChange={e => setRecipient(e.target.value)}
+            id="send-msg"
+            placeholder="5106441234"
+          />
+          <button className="btn btn-primary text-center" >Send the message</button>
+
+      </fieldset>
       </form>
     </>
   );
