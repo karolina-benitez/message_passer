@@ -3,5 +3,6 @@ CREATE DATABASE messagepasserdb;
 
 CREATE TABLE messages(
   id serial PRIMARY KEY,
-  messageBody VARCHAR (1000) NOT NULL
+  messageBody VARCHAR (1000) NOT NULL,
+  messageURL VARCHAR (1000) NOT NULL
 );

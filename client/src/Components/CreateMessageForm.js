@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect} from 'react';
+import React, { Fragment } from 'react';
+import { Redirect } from 'react-router'
 
 const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID}) => {
 
@@ -14,29 +15,37 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
         body: JSON.stringify(body)
       })
       .then(response => response.json())
-      .then(data => console.log("data_id", data[0].id));
-
+      .then(data => {
+        setMessageID(data.id)
+        console.log("data_id", data)
+      });
       console.log("responseobject", responseObject)
     } catch (err) {
       console.error(err.message)
     }
   }
 
-  // NEED TO FIND WAY TO RETURN MESSAGE_ID ONCE MESSAGE IS STORED IN THE DB
-      return (
-        <Fragment>
-          <h3 className="text-center mt-5">Enter your message</h3>
-          <form className='mt-5' onSubmit={onSubmitMessage}>
-            <input
-              type="text"
-              className="form-control"
-              value={messageBody}
-              onChange={e => setMessageBody(e.target.value)}
-            />
-            <button className="btn btn-success text-center" >Generate URL</button>
-          </form>
-        </Fragment>
-      );
+    return (
+      <Fragment>
+        <h3 className="text-center mt-5">Enter your message</h3>
+        <form className='mt-5' onSubmit={onSubmitMessage}>
+          <input
+            type="text"
+            className="form-control"
+            value={messageBody}
+            onChange={e => setMessageBody(e.target.value)}
+          />
+          <button className="btn btn-success text-center" >Generate URL</button>
+        </form>
+        {messageID ? 
+          <Redirect to={{
+            pathname: '/messageURL',
+            state: { id: `${messageID}` }
+          }} />
+          : ""
+        }
+      </Fragment>
+    );
   }
 
 export default CreateMessageForm;

@@ -43,7 +43,8 @@ export const getMessage = async(req, res) => {
       "SELECT * FROM messages WHERE id = $1",
       [id]
     );
-    res.json(base64.decode(message.rows[0].messagebody));
+    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl }); //need to return messageURL for messageURL, currently returning ID
+    console.log("getMessage endpoint was hit!!! Response = ", {"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl })
   } catch (error) {
     console.log(error);
   }
@@ -58,8 +59,8 @@ export const createMessage = async(req, res) => {
     console.log("messageBody ", messageBody)
     console.log("messageURL", messageURL)
     const newMessage = await pool.query(
-      "INSERT INTO messages (messageBody) VALUES($1) RETURNING *",
-      [messageBody]
+      "INSERT INTO messages (messageBody, messageURL) VALUES($1, $2) RETURNING *",
+      [messageBody, messageURL]
     );
     res.json(newMessage.rows[0]);
   } catch (error) {
@@ -71,7 +72,8 @@ export const createMessage = async(req, res) => {
 export const editMessage = async(req, res) => {
   try {
     const { id } = req.params;
-    const { messageBody } = req.body;
+    let { messageBody } = req.body;
+    messageBody = base64.encode(messageBody)
     const editMessage =  await pool.query(
       "UPDATE messages SET messageBody = $1 WHERE id = $2",
       [messageBody, id]
