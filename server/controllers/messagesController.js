@@ -1,7 +1,22 @@
 import Pool from 'pg';
+import qs from 'qs';
+import base64 from 'base-64';
+import sendSMS from '../messaging/sendSMS.js'
+
 // was receiving:
 // Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/karolinabenitez/Desktop/code/mlh/message_passer/db' imported from /Users/karolinabenitez/Desktop/code/mlh/message_passer/controllers/messagesController.js
 // when importing pool from db.js file
+
+let testing = {
+  messageBody:"This is my test string"
+}
+// app.use(Base64())
+var obj = qs.parse('a%5Bb%5D=c');
+console.log()
+var str = qs.stringify(obj);
+// console.log("base64", window.btoa("testing"))
+console.log("stringify: ", qs.stringify(testing))
+console.log(base64.encode(testing))
 
 export const pool =  new Pool.Pool({
   user: "postgres",
@@ -29,7 +44,7 @@ export const getMessage = async(req, res) => {
       "SELECT * FROM messages WHERE id = $1",
       [id]
     );
-    res.json(message.rows[0]);
+    res.json(base64.decode(message.rows[0].messagebody));
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +52,12 @@ export const getMessage = async(req, res) => {
 
 export const createMessage = async(req, res) => {
   try {
-    const {messageBody} = req.body;
+    let {messageBody} = req.body;
+    // messageBody w/ BASE64
+    messageBody = base64.encode(messageBody)
+    let messageURL = qs.stringify({"messageBody": messageBody})
+    console.log("messageBody ", messageBody)
+    console.log("messageURL", messageURL)
     const newMessage = await pool.query(
       "INSERT INTO messages (messageBody) VALUES($1) RETURNING *",
       [messageBody]
@@ -71,6 +91,15 @@ export const deleteMessage = async(req, res) => {
       [id]
     );
     res.json("Message was deleted")
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const sendMessage = async(req, res) => {
+  try {
+    const {recipient, message} = req.body;
+    await fakeSendSMS(`+${recipient}`, message);
   } catch (error) {
     console.log(error);
   }
