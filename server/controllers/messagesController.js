@@ -1,5 +1,7 @@
 import Pool from 'pg';
 import qs from 'qs';
+import base64 from 'base-64';
+
 // was receiving:
 // Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/karolinabenitez/Desktop/code/mlh/message_passer/db' imported from /Users/karolinabenitez/Desktop/code/mlh/message_passer/controllers/messagesController.js
 // when importing pool from db.js file
@@ -13,6 +15,7 @@ console.log()
 var str = qs.stringify(obj);
 // console.log("base64", window.btoa("testing"))
 console.log("stringify: ", qs.stringify(testing))
+console.log(base64.encode(testing))
 
 export const pool =  new Pool.Pool({
   user: "postgres",
@@ -40,7 +43,7 @@ export const getMessage = async(req, res) => {
       "SELECT * FROM messages WHERE id = $1",
       [id]
     );
-    res.json(message.rows[0]);
+    res.json(base64.decode(message.rows[0].messagebody));
   } catch (error) {
     console.log(error);
   }
@@ -48,9 +51,12 @@ export const getMessage = async(req, res) => {
 
 export const createMessage = async(req, res) => {
   try {
-    const {messageBody} = req.body;
+    let {messageBody} = req.body;
     // messageBody w/ BASE64
-    // messageBody = qs.stringify(testing)
+    messageBody = base64.encode(messageBody)
+    let messageURL = qs.stringify({"messageBody": messageBody})
+    console.log("messageBody ", messageBody)
+    console.log("messageURL", messageURL)
     const newMessage = await pool.query(
       "INSERT INTO messages (messageBody) VALUES($1) RETURNING *",
       [messageBody]
