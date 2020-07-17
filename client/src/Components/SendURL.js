@@ -1,17 +1,18 @@
 import React from 'react';
 
-const SendURL = ({recipient, setRecipient, url, setURL}) => {
+const SendURL = ({recipient, setRecipient, url='W29iamVjdCBPYmplY3Rd', setURL}) => {
   const sendtheURL = async e => {
     console.log("sendtheURL")
 
     e.preventDefault();
 
     try {
-      console.log(recipient)
+      console.log(`recipient: ${recipient}\nurl: ${url}`);
+
       await fetch("http://localhost:8000/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(recipient)
+        body: JSON.stringify(`recipient: ${recipient}\nurl: ${url}`)
       })
       .then(response => response.json())
       .then(data => console.log("data_id", data.id));

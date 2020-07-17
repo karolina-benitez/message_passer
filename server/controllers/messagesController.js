@@ -98,8 +98,9 @@ export const deleteMessage = async(req, res) => {
 
 export const sendMessage = async(req, res) => {
   try {
-    const {recipient, message} = req.body;
-    await fakeSendSMS(`+${recipient}`, message);
+    const {recipient, urlToSend} = req.body;
+    await sendSMS(`+${recipient}`, urlToSend);
+    res.json(`Sent to ${recipient}: ${urlToSend}`)
   } catch (error) {
     console.log(error);
   }
