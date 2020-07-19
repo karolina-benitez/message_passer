@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router'
 
-const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data}) => {
+const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data, setURL}) => {
 
   const onSubmitMessage = async (e) => {
     console.log("OnSubmitMessage clicked")

@@ -2,6 +2,7 @@ import React from 'react';
 
 const SendURL = ({recipient, setRecipient, url}) => {
   console.log(`before sending, recipient: ${recipient}, url: ${url}`)
+  
   const sendtheURL = async e => {
     console.log("sendtheURL")
 
@@ -29,7 +30,7 @@ const SendURL = ({recipient, setRecipient, url}) => {
 
   return (
     <>
-      <form className='mt-5' onSubmit={sendtheURL}>
+      <form className='mt-5 envelope' onSubmit={sendtheURL}>
       <fieldset>
         <legend>Send the link to someone</legend>
         <label htmlFor="send-msg">Please enter a phone number to send the message</label>
