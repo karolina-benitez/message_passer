@@ -12,15 +12,19 @@ const MessageDisplay = () => {
   const [messageID, setID] = useState("");
   const [data, setdata] = useState("");
 
-  useEffect(async () => {
-    const response = await fetch(`http://localhost:8000/${messageURL}`);
-    const data = await response.json();
-    const item = data
-    setMessageBody(item.messagebody)
-    setID(item.id)
-    setdata(item)
+  useEffect( () => {
+    const getMessageURL = async () => {
+
+      const response = await fetch(`http://localhost:8000/${messageURL}`);
+      const data = await response.json();
+
+      setMessageBody(data.messagebody)
+      setID(data.id)
+      setdata(data)
+    }
+    getMessageURL();
     console.log("fetch happened")
-  }, []);
+  }/* , [messageURL] */);
   console.log("messageBody", messageBody)
   console.log("data: ", data)
   console.log("messageID: ", messageID)
@@ -31,7 +35,8 @@ const MessageDisplay = () => {
     console.log("messageID", messageID)
     e.preventDefault();
     try {
-      const responseObject = await fetch(`http://localhost:8000/${messageID}`, {
+      // const responseObject = 
+      await fetch(`http://localhost:8000/${messageID}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
       })
