@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SendURL = ({recipient, setRecipient, url}) => {
-  console.log(`before sending, ${recipient}, url: ${url}`)
+  console.log(`before sending, recipient: ${recipient}, url: ${url}`)
   const sendtheURL = async e => {
     console.log("sendtheURL")
 
@@ -16,10 +16,11 @@ const SendURL = ({recipient, setRecipient, url}) => {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: "testing again" //JSON.stringify(`{recipient: ${recipient},urlToSend: ${url}}`)
+        body: "Text from SendURL" //JSON.stringify(`{recipient: ${recipient},urlToSend: ${url}}`)
       })
-      .then(response => response.json())
-      .then(data => console.log("data_id", data));
+      .then(response => response.text())//response.json())
+      .then(text => console.log(text))
+      // .then(data => console.log("data_id", data));
 
     } catch (err) {
       console.error(err.message)
