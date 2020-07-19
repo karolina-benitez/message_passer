@@ -29,6 +29,8 @@ function App() {
           </Route>
           <Route exact path ='/url'>
             <EditMessage
+              messageBody={messageBody}
+              setMessageBody={setMessageBody}
             />
             <SendURL 
               recipient={recipient} 
