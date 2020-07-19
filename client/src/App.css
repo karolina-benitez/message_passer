@@ -17,4 +17,18 @@ body {
     width: 90%;
     padding: 1.5rem 4%;
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.messageDisplay {
+  border: 1px solid #fbfbfb;
+  padding: 10px;
+  box-shadow: 5px 5px 10px #d3d2d2;
+}
+.buttonContainer{
+  text-align: center;
+}
+.buttonStyle{
+ margin: auto;
 }

@@ -39,12 +39,16 @@ export const getAll = async(req,res) => {
 
 export const getMessage = async(req, res) => {
   try {
-    const { id } = req.params;
+    let  { messageURL } = req.params;
+    messageURL = qs.parse(messageURL)
+    console.log("messageurl", messageURL)
     const message = await pool.query(
-      "SELECT * FROM messages WHERE id = $1",
-      [id]
+      "SELECT * FROM messages WHERE messagebody = $1",
+      [messageURL.messageBody]
     );
-    res.json(base64.decode(message.rows[0].messagebody));
+    // console.log("message", message.rows[0])
+    res.json({"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl, "id": message.rows[0].id });
+    console.log("getMessage endpoint was hit!!! Response = ", {"messagebody": base64.decode(message.rows[0].messagebody), "messageURL": message.rows[0].messageurl })
   } catch (error) {
     console.log(error);
   }
@@ -59,8 +63,8 @@ export const createMessage = async(req, res) => {
     console.log("messageBody ", messageBody)
     console.log("messageURL", messageURL)
     const newMessage = await pool.query(
-      "INSERT INTO messages (messageBody) VALUES($1) RETURNING *",
-      [messageBody]
+      "INSERT INTO messages (messageBody, messageURL) VALUES($1, $2) RETURNING *",
+      [messageBody, messageURL]
     );
     res.json(newMessage.rows[0]);
   } catch (error) {
@@ -72,7 +76,8 @@ export const createMessage = async(req, res) => {
 export const editMessage = async(req, res) => {
   try {
     const { id } = req.params;
-    const { messageBody } = req.body;
+    let { messageBody } = req.body;
+    messageBody = base64.encode(messageBody)
     const editMessage =  await pool.query(
       "UPDATE messages SET messageBody = $1 WHERE id = $2",
       [messageBody, id]
@@ -85,7 +90,9 @@ export const editMessage = async(req, res) => {
 
 export const deleteMessage = async(req, res) => {
   try {
+    console.log("delete endpoint was hit!!!!!")
     const { id } = req.params;
+    console.log("id is: ", id)
     const deleteMessage = await pool.query(
       "DELETE FROM messages where id = $1",
       [id]

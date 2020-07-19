@@ -12,7 +12,7 @@ app.use(express.json())
 
 app.get('/', getAll);
 
-app.get('/:id', getMessage);
+app.get('/:messageURL', getMessage);
 
 app.post('/', createMessage);
 
