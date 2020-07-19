@@ -1,38 +1,47 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
 import {useLocation} from "react-router-dom";
 
-const EditMessage = () => {
+const EditMessage = ({messageBody, setMessageBody}) => {
   const location = useLocation();
   let messageID = location.state.id
   console.log(messageID)
   // messageID = parseInt(messageID)
   console.log("messageID", messageID)
-  const [messageBody, setMessageBody] = useState("");
+  // const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
   const [messageURL, setMessageURL] = useState("");
   const [data, setdata] = useState("");
 
   // TODO: FETCH again when message is updated to update URL
-  useEffect(async () => {
-    const response = await fetch(`http://localhost:8000/${messageID}`);
-    const data = await response.json();
-    const item = data
-    setMessageURL(item.messageURL)
-    setMessageBody(item.messagebody)
-    setdata(item)
+  useEffect( () => {
+    const getMessage = async () => {
+      const response = await fetch(`http://localhost:8000/${messageID}`);
+      const data = await response.json();
+      const item = data
+      setMessageBody(item.messagebody)
+      setMessageURL(item.messageURL)
+      setdata(item)
+    }
+    getMessage();
     console.log("fetch happened")
   }, []);
   console.log("messageURL", messageURL)
   console.log("data: ", data)
+
   const onSubmitMessage = async (e) => {
     e.preventDefault();
     try {
       const body = { messageBody };
-      const responseObject = await fetch(`http://localhost:8000/${messageID}`, {
+      // const responseObject = 
+      await fetch(`http://localhost:8000/${messageID}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       })
       .then(response => response.json())
+      .then( data => {
+        setMessageBody(data.messagebody);
+        setMessageURL(data.messageURL);
+      })
     } catch (err) {
       console.error(err.message)
     }
@@ -63,13 +72,14 @@ const EditMessage = () => {
         />
         <button className="btn btn-success text-center" >Edit Message</button>
       </form>
-      <form  className='mt-5'>
+      <form className='mt-5'>
        <label htmlFor="urlbox">Message url: </label>
        <textarea
           id="urlbox"
           className="form-control"
           ref={textAreaRef}
           value={copyMessageURL}
+          readOnly
         />
       </form>
       {
@@ -77,7 +87,7 @@ const EditMessage = () => {
           button if the copy command exists */
        document.queryCommandSupported('copy') &&
         <div>
-          <button  className="btn btn-success text-center" onClick={copyToClipboard}>Copy</button>
+          <button className="btn btn-success text-center" onClick={copyToClipboard}>Copy</button>
           {copySuccess}
         </div>
       }
