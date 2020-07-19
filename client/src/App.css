@@ -1,26 +1,51 @@
+:root {
+  --main-dark: rgb(38, 17, 43);
+  --main-dark-translucent: rgba(38, 17, 43,0.75);
+  --main-light: rgb(245,240,240);
+  --main-light-translucent: rgba(245,240,240,0.75);
+
+  --postal-blue:rgba(20,20,255,0.75);
+  --postal-red: rgba(255,20,20,0.75);
+}
 body {
-  background-image: url(mail-box.jpg);
+  background: 
+    radial-gradient(
+      circle at 50% 37.5%, 
+      var(--main-light-translucent,rgba(255,255,255, 0.75)), 
+      var(--main-dark-translucent,rgba(0,0,0, 0.75)) 55%
+    );
+
+  color: var(--main-light,white);
 }
 
-.App {
+.container {
   width: 94%;
   display: block;
-  margin: 1rem auto;
-  background-color: rgba(255,255,255, 0.5);
-  padding: 1rem 2.5%
-  
-}
+  margin: 5vh auto;
+  background-color: var(--main-dark-translucent,rgba(255,255,255, 0.75));
+  padding: 2rem 10% 10vh;
+  height:100vh;
 
 
-@media (min-width: 600px) {
-  .App {
-    width: 90%;
-    padding: 1.5rem 4%;
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
+
+.envelope {
+  border: 15px solid;
+  border-image: 
+  repeating-linear-gradient(
+    45deg,
+    var(--postal-blue,rgba(0,0,255, 0.75)),
+    var(--postal-blue,rgba(0,0,255, 0.75)) 20px,
+    var(--main-light-translucent,rgba(255,255,255, 0.75)) 20px,
+    var(--main-light-translucent,rgba(255,255,255, 0.75)) 40px,
+    var(--postal-red,rgba(255,0,0, 0.75)) 40px,
+    var(--postal-red,rgba(255,0,0, 0.75)) 60px,
+    var(--main-light-translucent,rgba(255,255,255, 0.75)) 60px,
+    var(--main-light-translucent,rgba(255,255,255, 0.75)) 80px
+  ) 15;
+  padding: 2rem 5%;  
+}
+
 .messageDisplay {
   border: 1px solid #fbfbfb;
   padding: 10px;
@@ -31,4 +56,11 @@ body {
 }
 .buttonStyle{
  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .container {
+    width: 90%;
+    padding: 1.5rem 4%;
+  }
 }
