@@ -1,15 +1,19 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 
-const SendURL = ({recipient, setRecipient, url}) => {
-  console.log(`before sending, recipient: ${recipient}, url: ${url}`)
-  
+const SendURL = ({messageURL}) => {
+  const [recipient, setRecipient] = React.useState("");
+  const [messageSent, setMessageSent] = React.useState(false);
+
+  console.log(`before sending, recipient: ${recipient}, messageURL: ${messageURL}`)
+
   const sendtheURL = async e => {
     console.log("sendtheURL")
 
-    e.target.preventDefault();
+    // e.target.preventDefault();
 
     try {
-      console.log(`recipient: ${recipient}\nurl: ${url}`);
+      console.log(`Try to send recipient: ${recipient} and messageURL: ${messageURL}`);
 
       await fetch("http://localhost:8000/send", {
         method: "POST",
@@ -17,14 +21,15 @@ const SendURL = ({recipient, setRecipient, url}) => {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: "Text from SendURL" //JSON.stringify(`{recipient: ${recipient},urlToSend: ${url}}`)
+        body: JSON.stringify(`{recipient: ${recipient},messageURL: ${messageURL}}`)
       })
-      .then(response => response.text())//response.json())
+      .then(response => response.json()) //response.text())//
       .then(text => console.log(text))
       // .then(data => console.log("data_id", data));
-
+      setMessageSent(true);
+      console.log(`setMessageSent(true), messageSent is: `)
     } catch (err) {
-      console.error(err.message)
+      console.error(`Caught sendtheURL error: ${err.message}`)
     }
   }
 
@@ -43,9 +48,13 @@ const SendURL = ({recipient, setRecipient, url}) => {
             placeholder="5106441234"
           />
           <button className="btn btn-primary text-center" >Send the message</button>
-
       </fieldset>
       </form>
+      {messageSent && <Redirect to={{
+        pathname: '/messagesent',
+        state: { messageURL: `${messageURL}`}
+      }} />
+      }
     </>
   );
 }

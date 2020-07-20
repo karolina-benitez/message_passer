@@ -21,6 +21,7 @@ node_modules
 .env
 server/.env
 ./server/.env
+*/.env
 .env.local
 .env.development.local
 .env.test.local

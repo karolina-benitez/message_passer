@@ -11,8 +11,10 @@ function App() {
 
   const [messageBody, setMessageBody] = useState("");
   const [messageID, setMessageID] = useState("");
-  const [recipient, setRecipient] = React.useState("");
-  const [url, setURL] = React.useState('hardcodedurl');
+  const [messageURL, setMessageURL] = React.useState('');
+  const [data, setData] = React.useState({})
+
+  console.log(`App has messageBody: ${messageBody}, messageID: ${messageID}, messageURL: ${messageURL}`)
 
   return(
     <div className="container">
@@ -24,24 +26,30 @@ function App() {
             setMessageBody={setMessageBody}
             messageID={messageID}
             setMessageID={setMessageID}
-            setURL={setURL}
+            messageURL={messageURL}
+            setMessageURL={setMessageURL}
+            data={data}
+            setData={setData}
             />
           </Route>
           <Route exact path ='/url'>
             <EditMessage
+              messageID={messageID}
               messageBody={messageBody}
               setMessageBody={setMessageBody}
-            />
+              messageURL={messageURL}
+              setMessageURL={setMessageURL}
+          />
             <SendURL 
-              recipient={recipient} 
-              setRecipient={setRecipient} 
-              url={url}
+              messageURL={messageURL}
             />
           </Route>
           <Route exact path ='/:messageURL'>
             <MessageDisplay/>
           </Route>
-
+          <Route exact path='/messagesent'>
+            <p>You sent your message</p>
+          </Route>
         </Switch>
       </BrowserRouter>
     </div>

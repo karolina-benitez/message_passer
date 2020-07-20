@@ -24,7 +24,7 @@ const MessageDisplay = () => {
     }
     getMessageURL();
     console.log("fetch happened")
-  }/* , [messageURL] */);
+  },[]);
   console.log("messageBody", messageBody)
   console.log("data: ", data)
   console.log("messageID: ", messageID)

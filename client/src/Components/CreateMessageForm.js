@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router'
 
-const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data, setURL}) => {
+const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data, messageURL, setMessageURL}) => {
 
   const onSubmitMessage = async (e) => {
-    console.log("OnSubmitMessage clicked")
-    console.log(messageBody)
+
     e.preventDefault();
     try {
       const body = { messageBody };
@@ -16,11 +15,13 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
       })
       .then(response => response.json())
       .then(data => {
-        setMessageID(data.messageurl)//this is storing the messageURL not the message id
+        setMessageURL(data.messageurl)
+        setMessageID(data.id)
+        setMessageBody(data.messageBody)
         setData(data)
         console.log("data_id", data)
+        console.log("responseobject", responseObject)
       });
-      console.log("responseobject", responseObject)
     } catch (err) {
       console.error(err.message)
     }
@@ -28,7 +29,7 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
 
     return (
       <Fragment>
-        <h3 className="text-center mt-5">Enter your message</h3>
+        <h1 className="text-center mt-5">Enter your message</h1>
         <form className='mt-5' onSubmit={onSubmitMessage}>
           <input
             type="text"
@@ -38,10 +39,11 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
           />
           <button className="btn btn-success text-center" >Generate URL</button>
         </form>
-        {messageID ? 
+        {messageURL ? 
           <Redirect to={{
             pathname: '/url',
             state: { id: `${messageID}`,
+                    messageURL: `${messageURL}`,
                      data: `${data}`}
           }} />
           : ""

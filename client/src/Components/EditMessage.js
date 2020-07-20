@@ -1,14 +1,15 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
 import {useLocation} from "react-router-dom";
 
-const EditMessage = ({messageBody, setMessageBody}) => {
+const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMessageURL}) => {
   const location = useLocation();
-  let messageID = location.state.id
-  console.log(messageID)
+  console.log(`In EditMessage, location contains: ${location.state}`)
+  // let messageID = location.state.id
+  // console.log(messageID)
   // messageID = parseInt(messageID)
-  console.log("messageID", messageID)
+  console.log("EditMessage got messageID as: ", messageID)
   // const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
-  const [messageURL, setMessageURL] = useState("");
+  // const [messageURL, setMessageURL] = useState("");
   const [data, setdata] = useState("");
 
   // TODO: FETCH again when message is updated to update URL
@@ -16,18 +17,20 @@ const EditMessage = ({messageBody, setMessageBody}) => {
     const getMessage = async () => {
       const response = await fetch(`http://localhost:8000/${messageID}`);
       const data = await response.json();
-      const item = data
-      setMessageBody(item.messagebody)
-      setMessageURL(item.messageURL)
-      setdata(item)
+      // const item = data
+      setMessageBody(data.messagebody)
+      setMessageURL(data.messageURL)
+      setdata(data)
     }
     getMessage();
     console.log("fetch happened")
-  }, []);
+  }, [messageBody, messageID]);
+
   console.log("messageURL", messageURL)
   console.log("data: ", data)
 
   const onSubmitMessage = async (e) => {
+  
     e.preventDefault();
     try {
       const body = { messageBody };
@@ -57,7 +60,9 @@ const EditMessage = ({messageBody, setMessageBody}) => {
     setCopySuccess('Copied!');
   };
   // function to copy url to clipboard ----------END
+  
   let copyMessageURL = `http://localhost:3000/${messageURL}`
+  
   return (
     <Fragment>
       <h1 className="text-center">Secret Message URL</h1>
@@ -79,7 +84,7 @@ const EditMessage = ({messageBody, setMessageBody}) => {
           className="form-control"
           ref={textAreaRef}
           value={copyMessageURL}
-          readOnly
+          onChange={e => e.preventDefault()}
         />
       </form>
       {
