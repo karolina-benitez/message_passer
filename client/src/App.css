@@ -8,28 +8,29 @@
   --postal-red: rgba(255,20,20,0.75);
 }
 body {
-  background: 
-    radial-gradient(
-      circle at 50% 37.5%, 
-      var(--main-light-translucent,rgba(255,255,255, 0.75)), 
-      var(--main-dark-translucent,rgba(0,0,0, 0.75)) 55%
-    );
-
-  color: var(--main-light,white);
+  color: var(--main-dark, indigo);
+  margin: 0;
 }
 
 .container {
-  width: 94%;
+  width: 100%;
   display: block;
-  margin: 5vh auto;
-  background-color: var(--main-dark-translucent,rgba(255,255,255, 0.75));
-  padding: 2rem 10% 10vh;
+  padding: 0 0 10vh;
   height:100vh;
-
-
+}
+h1 {
+  color: var(--main-light-translucent);
+  text-shadow: 1px 1px 0 var(--main-dark-translucent),
+               -1px 1px 0 var(--main-dark-translucent),
+                1px -1px 0 var(--main-dark-translucent),
+               -1px -1px 0 var(--main-dark-translucent)
+  ;
+  box-shadow: 0 5px 8px var(--main-dark-translucent);
+  padding: 1em 0;
 }
 
 .envelope {
+  box-sizing: border-box;
   border: 15px solid;
   border-image: 
   repeating-linear-gradient(
@@ -57,10 +58,22 @@ body {
 .buttonStyle{
  margin: auto;
 }
+h1, button.btn, button.btnbutton.btn-success {
+  border-color: var(--main-dark-translucent);
+  background: 
+  radial-gradient(
+    circle at 0 0, 
+    /* var(--main-light-translucent,rgba(255,255,255, 0.75)),  */
+    var(--postal-blue),
+    var(--main-dark,indigo),
+    var(--postal-red) 
+  );
+}
+button.btn:hover, button.btnbutton.btn-success:hover, button.btn:active, button.btnbutton.btn-success:active, button.btn:focus, button.btnbutton.btn-success:focus {
+  background-color: var(--main-dark, indigo);
+}
 
 @media (min-width: 600px) {
   .container {
-    width: 90%;
-    padding: 1.5rem 4%;
   }
 }
