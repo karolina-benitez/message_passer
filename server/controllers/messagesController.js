@@ -3,10 +3,6 @@ import qs from 'qs';
 import base64 from 'base-64';
 import sendSMS from '../messaging/sendSMS.js'
 
-// was receiving:
-// Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/karolinabenitez/Desktop/code/mlh/message_passer/db' imported from /Users/karolinabenitez/Desktop/code/mlh/message_passer/controllers/messagesController.js
-// when importing pool from db.js file
-
 let testing = {
   messageBody:"This is my test string"
 }
@@ -38,6 +34,7 @@ export const getAll = async(req,res) => {
 }
 
 export const getMessage = async(req, res) => {
+  console.log("In getMessage endpoint")
   try {
     let  { messageURL } = req.params;
     messageURL = qs.parse(messageURL)
@@ -66,6 +63,7 @@ export const createMessage = async(req, res) => {
       "INSERT INTO messages (messageBody, messageURL) VALUES($1, $2) RETURNING *",
       [messageBody, messageURL]
     );
+    console.log(`from createMesssage: ${newMessage.rows}`)
     res.json(newMessage.rows[0]);
   } catch (error) {
     console.log(error);
@@ -104,12 +102,17 @@ export const deleteMessage = async(req, res) => {
 }
 
 export const sendMessage = async(req, res) => {
-  console.log(`Server sendMessage: ${req.body}`)
-  // try {
-  //   const {recipient, urlToSend} = req.body;
-  //   await sendSMS(`+${recipient}`, urlToSend);
-  //   res.json(`Sent to ${recipient}: ${urlToSend}`)
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  console.log(`\n  sendMessage gets the following request: ${req.body}`)
+  try {
+    const {recipient, messageURL} = req.body;
+    const formattedRecipient = '+1'+recipient;
+    
+    console.log(`\n  sendMessage recipient: ${formattedRecipient}, messageURL: ${messageURL}`)
+
+    sendSMS(formattedRecipient, messageURL);
+
+    res.json(`sendSMS was given: ${formattedRecipient}: ${messageURL}`)
+  } catch (error) {
+    console.log(error);
+  }
 }
