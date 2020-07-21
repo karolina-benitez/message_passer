@@ -1,14 +1,13 @@
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router'
 
-const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, /* setData, data, */ messageURL, setMessageURL}) => {
+const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, messageURL, setMessageURL}) => {
 
   const onSubmitMessage = async (e) => {
 
     e.preventDefault();
     try {
       const body = { messageBody };
-      // const responseObject = 
       await fetch("http://localhost:8000/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -19,11 +18,7 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
         setMessageURL(data.messageurl)
         setMessageID(data.id)
         setMessageBody(data.messagebody)
-        // setData(data)
-        console.log("data_id", data)
       });
-      // console.log(`responseObject: ${responseObject}`)
-
     } catch (err) {
       console.error(err.message)
     }

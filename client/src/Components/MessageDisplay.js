@@ -2,46 +2,38 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {useLocation} from "react-router-dom";
 
 const MessageDisplay = () => {
-  const location = useLocation();
-  let messageURL = `${location.pathname}`
-  console.log(location)
-  // messageID = parseInt(messageID)
-  messageURL = messageURL.replace(/\//, '')
-  console.log("messageURL", messageURL)
   const [messageBody, setMessageBody] = useState("");
   const [messageID, setID] = useState("");
-  const [data, setdata] = useState("");
+  const location = useLocation();
+  let messageURL = `${location.pathname}`
+
+  // currently querying the db by using the mssagebody instead of messageurl
+  // this line removes the path slash to prepare the body for the query
+  messageURL = messageURL.replace(/\//, '')
 
   useEffect( () => {
     const getMessageURL = async () => {
-
       const response = await fetch(`http://localhost:8000/${messageURL}`);
       const data = await response.json();
-
       setMessageBody(data.messagebody)
       setID(data.id)
-      setdata(data)
+      console.log(`data.messagebody: ${data.messagebody}`)
+      console.log(`data.id: ${data.id}`)
     }
     getMessageURL();
     console.log("fetch happened")
   },[]);
-  console.log("messageBody", messageBody)
-  console.log("data: ", data)
-  console.log("messageID: ", messageID)
-  console.log("messageID: ", typeof messageID)
-
+console.log(`messageID: ${messageID}`)
   const onDeleteMessage = async (e) => {
     console.log("delete button clicked")
     console.log("messageID", messageID)
     e.preventDefault();
     try {
-      // const responseObject = 
       await fetch(`http://localhost:8000/${messageID}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" }
       })
       .then(response => console.log("response: ", response))
-      // .then(response => response.json())
     } catch (err) {
       console.error(err.message)
     }

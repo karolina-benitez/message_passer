@@ -2,60 +2,50 @@ import React, { Fragment, useEffect, useState, useRef } from 'react';
 // import {useLocation} from "react-router-dom";
 
 const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMessageURL}) => {
-  // const location = useLocation();
-  // console.log(`In EditMessage, location contains: ${location.state}`)
-  // let messageID = location.state.id
-  // console.log(messageID)
-  // messageID = parseInt(messageID)
-  console.log("EditMessage got messageID as: ", messageID)
+
   const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
-  // const [messageURL, setMessageURL] = useState("");
-  // const [data, setdata] = useState("");
-  // console.log(`EditMessage data is: ${data}`)
+
   // TODO: FETCH again when message is updated to update URL
+  // RESULT: We do not need to fetch again because the url will remain the same and the textbox value is updated during the PATCH request
   useEffect( () => {
     try {
       const getMessage = async () => {
         const response = await fetch(`http://localhost:8000/${messageURL}`);
         const data = await response.json();
-        // const item = data
         setMessageBody(data.messagebody)
         setMessageURL(data.messageURL)
-        // setdata(data)
       }
       getMessage();
-      console.log("fetch happened");
+      console.log("🍿🍿🍿🍿🍿🍿fetch happened🍿🍿🍿🍿🍿🍿🍿");
     } catch (error) {
       console.log(error);
     }
-  }, [messageBody]);
-
-  console.log("EditMessage has messageURL:", messageURL)
-  // console.log("data: ", data)
+  }, []);
 
   const onSubmitMessage = async (e) => {
-  
     e.preventDefault();
     try {
-      const body = updatedMessageBody;
-      console.log(`onSubmitMessage body is: ${body}, and messageID is ${messageID}`)
-      // const responseObject = 
+      const body = { updatedMessageBody };
+
       await fetch(`http://localhost:8000/${messageID}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        Accept : 'application/json',
         body: JSON.stringify(body)
       })
       .then(response => response.json())
       .then( data => {
-        console.log(`EditMessage onSubmitMessage data.messagebody: ${data.messagebody}`)
+        console.log(`onSubmitMessage data.messagebody: ${data.messagebody}`)
         setMessageBody(data.messagebody);
-        setMessageURL(data.messageURL);
+        setMessageURL(data.messageurl);
+        setEditSuccess('Message successfully edited!')
       })
     } catch (err) {
       console.error(err.message)
     }
   }
-  // function to copy url to clipboard
+
+  //copy url to clipboard
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
 
@@ -65,10 +55,12 @@ const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMess
     e.target.focus();
     setCopySuccess('Copied!');
   };
-  // function to copy url to clipboard ----------END
-  
   let copyMessageURL = `http://localhost:3000/${messageURL}`
-  
+
+  // success message popup
+  const [editSuccess, setEditSuccess] = useState('');
+  const [textSuccess, setTextSuccess] = useState('');
+
   return (
     <Fragment>
       <h1 className="text-center">Secret Message URL</h1>
@@ -79,11 +71,10 @@ const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMess
           type="text"
           className="form-control"
           value={updatedMessageBody}
-          onChange={e => {
-            console.log(`The input box is setting updatedMessageBody to ${updatedMessageBody}`)
-            setUpdatedMessageBody(e.target.value)}}
+          onChange={e => {setUpdatedMessageBody(e.target.value)}}
         />
         <button className="btn btn-success text-center" >Edit Message</button>
+        {editSuccess}
       </form>
       <form className='mt-5'>
        <label htmlFor="urlbox">Message url: </label>
