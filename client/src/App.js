@@ -6,15 +6,17 @@ import EditMessage from './Components/EditMessage'
 import CreateMessageForm from './Components/CreateMessageForm';
 import MessageDisplay from './Components/MessageDisplay';
 import SendURL from './Components/SendURL';
+import SentConfirmation from './Components/SentConfirmation';
+
 
 function App() {
 
   const [messageBody, setMessageBody] = useState("");
   const [messageID, setMessageID] = useState("");
   const [messageURL, setMessageURL] = React.useState('');
-  const [data, setData] = React.useState({})
+  // const [data, setData] = React.useState({})
 
-  console.log(`App has messageBody: ${messageBody}, messageID: ${messageID}, messageURL: ${messageURL}`)
+  // console.log(`App has messageBody: ${messageBody}, messageID: ${messageID}, messageURL: ${messageURL}`)
 
   return(
     <div className="container">
@@ -28,8 +30,8 @@ function App() {
             setMessageID={setMessageID}
             messageURL={messageURL}
             setMessageURL={setMessageURL}
-            data={data}
-            setData={setData}
+            // data={data}
+            // setData={setData}
             />
           </Route>
           <Route exact path ='/url'>
@@ -47,8 +49,10 @@ function App() {
           <Route exact path ='/:messageURL'>
             <MessageDisplay/>
           </Route>
-          <Route exact path='/messagesent'>
-            <p>You sent your message</p>
+          <Route exact path='/sent'>
+            <SentConfirmation
+              messageURL={messageURL}
+            />
           </Route>
         </Switch>
       </BrowserRouter>

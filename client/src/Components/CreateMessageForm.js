@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router'
 
-const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, setData, data, messageURL, setMessageURL}) => {
+const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID, /* setData, data, */ messageURL, setMessageURL}) => {
 
   const onSubmitMessage = async (e) => {
 
     e.preventDefault();
     try {
       const body = { messageBody };
-      const responseObject = await fetch("http://localhost:8000/", {
+      // const responseObject = 
+      await fetch("http://localhost:8000/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
@@ -17,11 +18,12 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
       .then(data => {
         setMessageURL(data.messageurl)
         setMessageID(data.id)
-        setMessageBody(data.messageBody)
-        setData(data)
+        setMessageBody(data.messagebody)
+        // setData(data)
         console.log("data_id", data)
-        console.log("responseobject", responseObject)
       });
+      // console.log(`responseObject: ${responseObject}`)
+
     } catch (err) {
       console.error(err.message)
     }
@@ -41,11 +43,7 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
         </form>
         {messageURL ? 
           <Redirect to={{
-            pathname: '/url',
-            state: { id: `${messageID}`,
-                    messageURL: `${messageURL}`,
-                     data: `${data}`}
-          }} />
+            pathname: '/url'}} />
           : ""
         }
       </Fragment>

@@ -7,27 +7,28 @@ const SendURL = ({messageURL}) => {
 
   console.log(`before sending, recipient: ${recipient}, messageURL: ${messageURL}`)
 
+  const sendPost = {
+    recipient: recipient,
+    messageURL: messageURL
+  };
+  const postOptions = {
+    method: 'POST',
+    body: JSON.stringify(sendPost),
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  };
   const sendtheURL = async e => {
-    console.log("sendtheURL")
-
-    // e.target.preventDefault();
 
     try {
       console.log(`Try to send recipient: ${recipient} and messageURL: ${messageURL}`);
 
-      await fetch("http://localhost:8000/send", {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(`{recipient: ${recipient},messageURL: ${messageURL}}`)
-      })
+      await fetch("http://localhost:8000/send", postOptions)
       .then(response => response.json()) //response.text())//
-      .then(text => console.log(text))
-      // .then(data => console.log("data_id", data));
+      // .then(text => console.log(text))
+      .then(data => console.log("SendtheURL response data", data));
       setMessageSent(true);
-      console.log(`setMessageSent(true), messageSent is: `)
+      console.log(`setMessageSent(true) messageSent===true?:${messageSent} `)
     } catch (err) {
       console.error(`Caught sendtheURL error: ${err.message}`)
     }
@@ -51,8 +52,12 @@ const SendURL = ({messageURL}) => {
       </fieldset>
       </form>
       {messageSent && <Redirect to={{
-        pathname: '/messagesent',
-        state: { messageURL: `${messageURL}`}
+        pathname: '/sent'//,
+        // state: { 
+        //   messageURL: `${messageURL}`,
+        //   recipient: `${recipient}`
+        
+        // }
       }} />
       }
     </>

@@ -1,39 +1,44 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
-import {useLocation} from "react-router-dom";
+// import {useLocation} from "react-router-dom";
 
 const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMessageURL}) => {
-  const location = useLocation();
-  console.log(`In EditMessage, location contains: ${location.state}`)
+  // const location = useLocation();
+  // console.log(`In EditMessage, location contains: ${location.state}`)
   // let messageID = location.state.id
   // console.log(messageID)
   // messageID = parseInt(messageID)
   console.log("EditMessage got messageID as: ", messageID)
-  // const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
+  const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
   // const [messageURL, setMessageURL] = useState("");
-  const [data, setdata] = useState("");
-
+  // const [data, setdata] = useState("");
+  // console.log(`EditMessage data is: ${data}`)
   // TODO: FETCH again when message is updated to update URL
   useEffect( () => {
-    const getMessage = async () => {
-      const response = await fetch(`http://localhost:8000/${messageID}`);
-      const data = await response.json();
-      // const item = data
-      setMessageBody(data.messagebody)
-      setMessageURL(data.messageURL)
-      setdata(data)
+    try {
+      const getMessage = async () => {
+        const response = await fetch(`http://localhost:8000/${messageURL}`);
+        const data = await response.json();
+        // const item = data
+        setMessageBody(data.messagebody)
+        setMessageURL(data.messageURL)
+        // setdata(data)
+      }
+      getMessage();
+      console.log("fetch happened");
+    } catch (error) {
+      console.log(error);
     }
-    getMessage();
-    console.log("fetch happened")
-  }, [messageBody, messageID]);
+  }, [messageBody]);
 
-  console.log("messageURL", messageURL)
-  console.log("data: ", data)
+  console.log("EditMessage has messageURL:", messageURL)
+  // console.log("data: ", data)
 
   const onSubmitMessage = async (e) => {
   
     e.preventDefault();
     try {
-      const body = { messageBody };
+      const body = updatedMessageBody;
+      console.log(`onSubmitMessage body is: ${body}, and messageID is ${messageID}`)
       // const responseObject = 
       await fetch(`http://localhost:8000/${messageID}`, {
         method: "PATCH",
@@ -42,6 +47,7 @@ const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMess
       })
       .then(response => response.json())
       .then( data => {
+        console.log(`EditMessage onSubmitMessage data.messagebody: ${data.messagebody}`)
         setMessageBody(data.messagebody);
         setMessageURL(data.messageURL);
       })
@@ -72,8 +78,10 @@ const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMess
           id="messagebox"
           type="text"
           className="form-control"
-          value={messageBody}
-          onChange={e => setMessageBody(e.target.value)}
+          value={updatedMessageBody}
+          onChange={e => {
+            console.log(`The input box is setting updatedMessageBody to ${updatedMessageBody}`)
+            setUpdatedMessageBody(e.target.value)}}
         />
         <button className="btn btn-success text-center" >Edit Message</button>
       </form>
