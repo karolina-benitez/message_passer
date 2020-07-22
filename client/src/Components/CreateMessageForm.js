@@ -34,7 +34,7 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
             value={messageBody}
             onChange={e => setMessageBody(e.target.value)}
           />
-          <button className="btn btn-success text-center" >Generate URL</button>
+          <button className="btn btn-primary text-center" >Generate URL</button>
         </form>
         {messageURL ? 
           <Redirect to={{

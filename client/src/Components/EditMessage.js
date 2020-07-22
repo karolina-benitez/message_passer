@@ -1,9 +1,12 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
-// import {useLocation} from "react-router-dom";
+import SendURL from './SendURL';
+import {Redirect} from 'react-router';
 
 const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMessageURL}) => {
 
   const [updatedMessageBody, setUpdatedMessageBody] = useState(messageBody);
+  const [messageSent, setMessageSent] = useState(false);
+
 
   // TODO: FETCH again when message is updated to update URL
   // RESULT: We do not need to fetch again because the url will remain the same and the textbox value is updated during the PATCH request
@@ -91,10 +94,18 @@ const EditMessage = ({messageID,messageBody, setMessageBody, messageURL, setMess
           button if the copy command exists */
        document.queryCommandSupported('copy') &&
         <div>
-          <button className="btn btn-success text-center" onClick={copyToClipboard}>Copy</button>
+          <button className="btn btn-primary text-center" onClick={copyToClipboard}>Copy</button>
           {copySuccess}
         </div>
       }
+      <SendURL 
+      messageURL={messageURL} 
+        messageSent={messageSent} 
+        setMessageSent={setMessageSent} 
+
+      />
+      {messageSent && <p>You sent the message</p>}
+
     </Fragment>
   )
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import {Redirect} from 'react-router';
 
-const SendURL = ({messageURL}) => {
+const SendURL = ({messageURL, messageSent, setMessageSent}) => {
   const [recipient, setRecipient] = React.useState("");
-  const [messageSent, setMessageSent] = React.useState(false);
 
   console.log(`before sending, recipient: ${recipient}, messageURL: ${messageURL}`)
 
@@ -19,7 +17,7 @@ const SendURL = ({messageURL}) => {
     }
   };
   const sendtheURL = async e => {
-
+    e.preventDefault();
     try {
       console.log(`Try to send recipient: ${recipient} and messageURL: ${messageURL}`);
 
