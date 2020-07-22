@@ -9,7 +9,7 @@ const SendURL = ({messageURL}) => {
 
   const sendPost = {
     recipient: recipient,
-    messageURL: messageURL
+    messageURL: `http://localhost:3000/${messageURL}`
   };
   const postOptions = {
     method: 'POST',
@@ -56,7 +56,7 @@ const SendURL = ({messageURL}) => {
         // state: { 
         //   messageURL: `${messageURL}`,
         //   recipient: `${recipient}`
-        
+
         // }
       }} />
       }
