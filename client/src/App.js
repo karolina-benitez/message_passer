@@ -5,7 +5,6 @@ import './App.css';
 import EditMessage from './Components/EditMessage'
 import CreateMessageForm from './Components/CreateMessageForm';
 import MessageDisplay from './Components/MessageDisplay';
-import SendURL from './Components/SendURL';
 import SentConfirmation from './Components/SentConfirmation';
 
 
@@ -37,9 +36,6 @@ function App() {
               messageURL={messageURL}
               setMessageURL={setMessageURL}
           />
-            <SendURL 
-              messageURL={messageURL}
-            />
           </Route>
           <Route exact path ='/:messageURL'>
             <MessageDisplay/>
