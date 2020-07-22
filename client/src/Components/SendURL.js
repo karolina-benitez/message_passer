@@ -49,15 +49,6 @@ const SendURL = ({messageURL, messageSent, setMessageSent}) => {
           <button className="btn btn-primary text-center" >Send the message</button>
       </fieldset>
       </form>
-      {messageSent && <Redirect to={{
-        pathname: '/sent'//,
-        // state: { 
-        //   messageURL: `${messageURL}`,
-        //   recipient: `${recipient}`
-
-        // }
-      }} />
-      }
     </>
   );
 }
