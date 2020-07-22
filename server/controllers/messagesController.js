@@ -113,7 +113,7 @@ export const deleteMessage = async(req, res) => {
 }
 
 export const sendMessage = async(req, res) => {
-  console.log(`🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑\n  sendMessage gets the following request: ${req.body}`)
+  console.log(`🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑🥑\n  sendMessage endpoint`)
   try {
     const {recipient, messageURL} = req.body;
     const formattedRecipient = '+1'+recipient;
