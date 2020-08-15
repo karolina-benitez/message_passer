@@ -26,15 +26,18 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
 
     return (
       <Fragment>
-        <h1 className="text-center mt-5">Enter your message</h1>
+        <h1 className="text-center mt-5" id="message-box" data-selen="blah">Enter your message</h1>
         <form className='mt-5' onSubmit={onSubmitMessage}>
           <input
             type="text"
+            id="message-field"
             className="form-control"
             value={messageBody}
             onChange={e => setMessageBody(e.target.value)}
           />
-          <button className="btn btn-primary text-center" >Generate URL</button>
+          <button className="btn btn-primary text-center"
+              id="generate-button">Generate URL
+          </button>
         </form>
         {messageURL ? 
           <Redirect to={{
