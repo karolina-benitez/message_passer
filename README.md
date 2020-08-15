@@ -1,24 +1,24 @@
 # Message Passer App
 
 ## Getting Started
-⋅⋅* Install npm
+* Install npm
 `npm install npm@latest -g`
-⋅⋅* Install nodemon
+* Install nodemon
 `npm install -g nodemon`
 
-⋅⋅* Fork and clone your forked repo
+* Fork and clone your forked repo
 `$ git remote add upstream git@github.com:karolina-benitez/message_passer.git`
 
 
 #### Set up Back End
-⋅⋅* Run npm install to get all the necessary dependencies:
+* Run npm install to get all the necessary dependencies:
 `$ cd backend`
 `$ npm install`
-⋅⋅* Start server
+* Start server
 `$ npm start`
 if error occurs, make sure you correctly installed nodemon
 #### Set up Data Base
-⋅⋅* Install Postgres
+* Install Postgres
 `$ brew install postgres`
 `$ brew services start postgresql`
 `$ psql postgres`
@@ -31,8 +31,8 @@ if error occurs, make sure you correctly installed nodemon
 );`
 
 #### Set up Front End
-⋅⋅* run npm install to get all the necessary dependencies:
+* run npm install to get all the necessary dependencies:
 `$ cd backend`
 `$ npm install`
-⋅⋅* Start server
+* Start server
 `$ npm start`
