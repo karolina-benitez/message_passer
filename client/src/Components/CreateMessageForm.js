@@ -26,7 +26,7 @@ const CreateMessageForm = ({messageBody, setMessageBody, messageID, setMessageID
 
     return (
       <Fragment>
-        <h1 className="text-center mt-5" id="message-box" data-selen="blah">Enter your message</h1>
+        <h1 className="text-center mt-5" id="message-box">Enter your message</h1>
         <form className='mt-5' onSubmit={onSubmitMessage}>
           <input
             type="text"
