@@ -12,5 +12,4 @@ WORKDIR /app/client
 RUN npm install
 
 # start app
-# TODO fix this - container dies after starting server. WHY?
 CMD ["npm", "start"]
