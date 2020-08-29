@@ -9,6 +9,7 @@
 3. go to front end: `http://localhost:3000/`
 
 ### Troubleshooting
+* clean up old docker containers and images to free up space on your mac: `docker system prune`
 * see running container: `docker container ls`
 * see built images: `docker image ls`
 * open shell inside running container and map FE running in container to your local
